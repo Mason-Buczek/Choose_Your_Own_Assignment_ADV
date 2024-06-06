@@ -1,2 +1,2 @@
-# Choose_Your_Own_Assignment_ADV
+# Choose Your Own Assignment: Advanced Data Visualzation
 This is the Advanced Data Visualization Assignment
