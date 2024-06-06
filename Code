@@ -1,0 +1,36 @@
+# Load libraries
+library(ggplot2)
+library(reshape2)
+library(readxl)
+library(pheatmap)
+
+# Load the data from the Excel file
+data <- read_excel("person_data.xlsx")
+
+# Convert Date to Date type and format to remove year
+data$Date <- format(as.Date(data$Date, format = "%Y-%m-%d"), "%m-%d")
+
+# Create a column for clothes combination
+data$Clothes_Combo <- paste(data$Clothes_Bottom, data$Clothes_Top, sep = " - ")
+
+# Create a matrix for the heatmap
+heatmap_data <- dcast(data, Clothes_Combo ~ Date, value.var = "Day_Max_Temp")
+
+# Convert to matrix format for heatmap
+heatmap_matrix <- as.matrix(heatmap_data[, -1])
+rownames(heatmap_matrix) <- heatmap_data$Clothes_Combo
+
+# Define color palette with blue for lower temperatures and red for higher temperatures
+my_palette <- colorRampPalette(c("blue", "red"))(100)
+
+# Plot heatmap with customized color palette
+p <- pheatmap(heatmap_matrix, 
+              cluster_rows = FALSE, 
+              cluster_cols = FALSE,
+              show_rownames = TRUE,
+              show_colnames = TRUE,
+              main = "Heatmap of Day Max Temperature by Clothes Combination",
+              color = my_palette)
+
+# Print the modified plot
+print(p)
