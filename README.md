@@ -1,2 +1,1 @@
-# Choose Your Own Assignment: Advanced Data Visualzation
-This is the Advanced Data Visualization Assignment
+file:///Users/masonbuczek/Envs-193DS/Choose_Assign/ADV.html
