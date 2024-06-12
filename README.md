@@ -1,1 +1,1 @@
-file:///Users/masonbuczek/Envs-193DS/Choose_Assign/ADV.html
+https://mason-buczek.github.io/Choose_Your_Own_Assignment_ADV
