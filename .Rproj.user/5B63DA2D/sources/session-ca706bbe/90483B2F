@@ -3,7 +3,7 @@
     "path": "~/Envs-193DS/Choose_Assign/Advanced_Data_Visualization.qmd",
     "project_path": null,
     "type": "quarto_markdown",
-    "hash": "3281599180",
+    "hash": "2598247889",
     "contents": "",
     "dirty": false,
     "created": 1717653789695.0,
@@ -12,20 +12,20 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "rmdVisualMode": "true",
+        "rmdVisualMode": "false",
         "rmdVisualWrapConfigured": "true",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
         "rmdVisualModeLocation": "1943:1337",
-        "cursorPosition": "20,0",
-        "scrollLine": "0"
+        "cursorPosition": "207,1725",
+        "scrollLine": "208"
     },
     "folds": "",
-    "lastKnownWriteTime": 1718174090,
+    "lastKnownWriteTime": 1718175099,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1718174090998,
+    "last_content_update": 1718175099051,
     "read_only": false,
     "read_only_alternatives": []
 }
