@@ -1,0 +1,172 @@
+---
+title: "Homework 1"
+author: Mason Buczek
+format: pdf
+editor: visual
+---
+
+# Part 2. Problems, code, and figures
+
+## Download Packages
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+## Problem 1. Measures of central tendency and data spread (8 points)
+
+```{r}
+P_Treefrog_Pop <- c(23, 25, 28, 32, 35, 39)
+```
+
+## 1A Categorize this data set
+
+The data set consists of masses (grams) of Pacific tree frogs collected in one night of sampling, making it quantitative continuous data, because it represents measurements that can take on any numerical value within a certain range, reflecting the weight of individual frogs.
+
+## 1B Calculating sample mean
+
+```{r}
+mean_value <- mean(P_Treefrog_Pop)
+print(paste("Sample Standard Deviation:", mean_value, "grams"))
+```
+
+## 1C Calculating sample variance
+
+```{r}
+variance_value <- var(P_Treefrog_Pop)
+print(paste("Sample Variance:", variance_value, "grams")) 
+```
+
+## 1D Calculating sample standard deviation
+
+```{r}
+vstd_deviation_value <- sd(P_Treefrog_Pop)
+print(paste("Sample Standard Deviation:", vstd_deviation_value, "grams"))
+```
+
+# Problem 2 Visualizing data
+
+## 2C
+
+The file "glacial_volume_loss.csv" contains actual data on annual and cumulative glacial volume loss across various regions, including associated impacts on sea rise. In contrast, "glacial_volume_loss_copy.csv" provides metadata or documentation about the dataset, such as publisher information and dataset descriptions.
+
+## 2H
+
+```{r}
+library(tidyverse)
+glaciers <- read_csv("glacial_volume_loss_copy.csv") 
+# Define varriables for the number of observations and the range
+obs <- 43
+range_min <- -0.128391866
+range_max <- 0.909625468
+
+# Calculate the width of each bin for values greater than or equal to 0
+range_positive <- max(glaciers$Annu_sea_rise[glaciers$Annu_sea_rise >= 0]) - min(glaciers$Annu_sea_rise[glaciers$Annu_sea_rise >= 0])
+bins_positive <- round(2 * (obs^(1/3)))
+binwidth_positive <- range_positive / bins_positive
+
+# Define the breaks for the histogram, including a specific bin for values less than 0
+breaks <- c(-Inf, seq(range_min, range_max, by = binwidth_positive))
+
+# Define the breaks and labels for the y-axis
+y_ticks <- seq(0, 10, by = 2)
+
+# Create the histogram
+ggplot(data = glaciers,
+       aes(x = Annu_sea_rise)) +
+  geom_histogram(binwidth = binwidth_positive, 
+                 fill = "skyblue", 
+                 alpha = 0.6, 
+                 color = "black", 
+                 position = "identity",
+                 breaks = breaks) +
+  scale_x_continuous(breaks = breaks, labels = scales::number_format(accuracy = 0.01)) +
+  scale_y_continuous(breaks = y_ticks, labels = y_ticks, expand = c(0, 0),
+                     limits = c(0, 10)) +  # Adjust the y-axis limits here
+  labs(title = "Histogram of Annual Sea Level Rise",
+       x = "Annual Sea Level Rise (mm)",
+       y = "Frequency")
+```
+
+## 2I
+
+```{r}
+# Create the scatterplot with a line of best fit
+p <- ggplot(data = glaciers,
+            aes(x = Year, y = Cumu_sea_rise)) +
+  geom_point(color = "blue") + # Point data added
+  geom_smooth(method = "lm", se = FALSE, color = "red") + # Line of best fit
+  labs(title = "Cumulative Sea Level Rise Through Time",
+       x = "Year",
+       y = "Cumulative Sea Level Rise (mm)")
+
+# Annotate the plot with the slope value below the data points
+p + annotate("text", x = max(glaciers$Year), y = min(glaciers$Cumu_sea_rise),
+             label = sprintf("Slope: %.2f mm/yr", coef(lm(Cumu_sea_rise ~ Year, data = glaciers))[2]), 
+             color = "black", hjust = 1, vjust = -1)
+```
+
+## Problem 3. Personal data (20 points total)
+
+Idea 1
+
+Question:
+
+How does the type of clothing I wear correlate with the daily maximum temperature?
+
+Data Collection:
+
+I would collect data at the end of each day.
+
+Variables:
+
+Date: The specific day (continuous) Clothes_Bottom: The type of bottom clothing worn (categorical) Clothes_Top: The type of top clothing worn (categorical) Day_Max_Temp: The maximum temperature of the day (continuous)
+
+```{r}
+# Create data frame for Idea 1
+clothing_data <- data.frame(
+  Date = as.Date(c('2024-04-12', '2024-04-13', '2024-04-14', '2024-04-15', '2024-04-16')),
+  Clothes_Bottom = c('Sweatpants', 'Sweatpants', 'Sweatpants', 'Sweatpants', 'Shorts'),
+  Clothes_Top = c('Sweater', 'Sweater', 'Sweater', 'Sweater', 'Shirt'),
+  Day_Max_Temp = c(59, 59, 60, 64, 69)
+)
+# Display the data frame
+print(clothing_data)
+```
+
+Idea 2
+
+Question:
+
+How does physical activity level vary based on the type of shoes worn?
+
+Data Collection:
+
+I would collect data at the end of each day.
+
+Variables:
+
+Date: The specific day (continuous) Shoe_Type: The type of shoes worn (categorical) Physical_Activity_Level: The amount of physical activity done (measured in steps or minutes of exercise) (continuous) Activity_Type: The type of physical activity (walking, running, etc.) (categorical) Comfort_Level: Self-reported comfort level with the shoes worn (scale from 1-10) (ordinal)
+
+```{r}
+# Create data frame for Idea 2
+activity_data <- data.frame(
+  Date = as.Date(c('2024-04-12', '2024-04-13', '2024-04-14', '2024-04-15', '2024-04-16')),
+  Shoe_Type = c('Crocs', 'Crocs', 'Crocs', 'Crocs', 'AF1'),
+  Physical_Activity_Level = c(5000, 6000, 4500, 7000, 8000),
+  Comfort_Level = c(7, 8, 6, 9, 8),
+  Day_Max_Temp = c(59, 59, 60, 64, 69)
+)
+
+# Display the data frame
+print(activity_data)
+```
+
+## Problem 4
+
+Abatzoglou, John T., et al. 2016. "Climate change and wildfires: An empirical analysis using spatial econometrics." Climatic Change 141:4. DOI: 10.1007/s10584-017-1895-1.
+
+Balch, Jennifer K., et al. 2017. "Human and climatic influences on fire occurrence in California." Global Ecology and Biogeography 26:3. DOI: 10.1111/geb.12470.
+
+Clarke, Harry, et al. 2019. "The influence of climate and land-use changes on wildfires in southeastern Australia." International Journal of Wildland Fire 28:4. DOI: 10.1071/WF18135.
